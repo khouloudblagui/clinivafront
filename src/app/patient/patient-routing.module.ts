@@ -28,7 +28,7 @@ const routes: Routes = [
     component: MedicalRecordsComponent,
   },
   {
-    path: "history", // Chemin pour accéder au composant History
+    path: "history", 
     component: HistoryComponent,
   },
   {

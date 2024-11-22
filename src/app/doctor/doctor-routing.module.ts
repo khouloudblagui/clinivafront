@@ -6,6 +6,7 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { DoctorsComponent } from './doctors/doctors.component';
 import { PatientsComponent } from './patients/patients.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ConsultationComponent } from './consultation/consultation.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'patients',
     component: PatientsComponent,
+  },
+  {
+    path: 'consultation',
+    component: ConsultationComponent,
   },
   {
     path: 'settings',
