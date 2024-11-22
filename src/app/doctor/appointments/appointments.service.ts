@@ -1,10 +1,27 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Appointments } from './appointments.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-@Injectable()
-export class AppointmentsService extends UnsubscribeOnDestroyAdapter {
+import { Appointment } from './appointments.model';
+
+@Injectable({
+providedIn: 'root', // Cela rend le service disponible dans toute l'application
+})
+export class AppointmentService {
+  private apiUrl = 'http://localhost:8087/api/doctor/appointments/';
+
+  constructor(private http: HttpClient) {}
+
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/`);
+  }
+
+  deleteAppointment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+}
+/*export class AppointmentsService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'assets/data/doc-appointments.json';
   isTblLoading = true;
   dataChange: BehaviorSubject<Appointments[]> = new BehaviorSubject<
@@ -21,7 +38,7 @@ export class AppointmentsService extends UnsubscribeOnDestroyAdapter {
   getDialogData() {
     return this.dialogData;
   }
-  /** CRUD METHODS */
+  /** CRUD METHODS
   getAllAppointmentss(): void {
     this.subs.sink = this.httpClient
       .get<Appointments[]>(this.API_URL)
@@ -75,4 +92,4 @@ export class AppointmentsService extends UnsubscribeOnDestroyAdapter {
     //       },
     //     });
   }
-}
+}*/

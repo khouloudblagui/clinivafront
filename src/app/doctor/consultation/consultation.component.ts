@@ -13,10 +13,12 @@ import { Consultation } from './consultation.model';
 import { surgicalprocedure } from 'app/admin/Surgical procedure/allsurgicalprocedure/surgicalprocedure.model';
 
 
+
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
-  styleUrls: ['./consultation.component.scss']
+  styleUrls: ['./consultation.component.scss'],
+
 })
 export class ConsultationComponent implements OnInit {
   userKy = 0;
