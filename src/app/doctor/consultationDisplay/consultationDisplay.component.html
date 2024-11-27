@@ -1,0 +1,111 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Consultation'" [items]="[]" [active_item]="'Consultation'"></app-breadcrumb>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="header">
+          <h2>
+            <strong>Consultation details</strong>
+          </h2>
+        </div>
+        <div class="body">
+          <div class="container">
+            <form [formGroup]="consultationForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-10">
+                  <ul class="left-timeline">
+                    <!-- Patient Key and Consultation -->
+                    <li>
+                      <time class="left-time">
+                        <span class="large" style="font-size: 16px;">Patient Key</span>
+                      </time>
+                      <div class="left-icon">
+                        <img src="assets/images/user/user1.jpg" alt="">
+                      </div>
+                      <div class="left-label empty">
+                        <span>{{ userKy }}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <time class="left-time">
+                        <span class="large" style="font-size: 16px;">Consultation</span>
+                      </time>
+                      <div class="left-icon">
+                        <img src="assets/images/user/user2.jpg" alt="">
+                      </div>
+                      <div class="left-label">
+                        <h2>
+                          Consultation with
+                          <input type="text" class="form-control" formControlName="doctorName" placeholder="Enter doctor's name" required>
+                        </h2>
+                        <textarea style="width: 600px; height: 80px;" class="form-control" formControlName="descCon" placeholder="Description of the consultation" required></textarea>
+                      </div>
+                    </li>
+
+                    <!-- Prescription -->
+                    <li>
+                      <time class="left-time">
+                        <span class="large" style="font-size: 16px;">Prescription</span>
+                      </time>
+                      <div class="left-icon">
+                        <img src="assets/images/user/user5.jpg" alt="">
+                      </div>
+                      <div class="left-label">
+                        <h2>
+                          Medications:
+                          <input type="text" class="form-control" formControlName="medications" placeholder="Enter medications, separated by commas" style="width: 600px;" required>
+                        </h2>
+                        <h2>
+                          Vaccinations:
+                          <input type="text" class="form-control" formControlName="vaccinations" placeholder="Enter vaccinations, separated by commas" style="width: 600px;" required>
+                        </h2>
+                        <h2>
+                          Analysis:
+                          <input type="text" class="form-control" formControlName="analyses" placeholder="Enter analysis, separated by commas" style="width: 600px;" required>
+                        </h2>
+                        <textarea style="width: 600px; height: 80px;" class="form-control" formControlName="descPre" placeholder="Description of the prescription"></textarea>
+                      </div>
+                    </li>
+
+                    <!-- Operation -->
+                    <li>
+                      <time class="left-time">
+                        <span class="large" style="font-size: 16px;">Operation</span>
+                      </time>
+                      <div class="left-icon">
+                        <img src="assets/images/user/user5.jpg" alt="">
+                      </div>
+                      <div class="left-label">
+                        <h2>
+                          Surgical Procedure:
+                          <input type="text" class="form-control" formControlName="surgicalProcedures" placeholder="Enter surgical procedures, separated by commas" style="width: 600px;" required>
+                        </h2>
+                        <textarea style="width: 600px; height: 80px;" class="form-control" formControlName="descSur" placeholder="Description of the surgical procedure"></textarea>
+                      </div>
+                    </li>
+
+                    <!-- Details -->
+                    <li>
+                      <time class="left-time">
+                        <span class="large" style="font-size: 16px;">Details</span>
+                      </time>
+                      <div class="left-icon">
+                        <img src="assets/images/user/user6.jpg" alt="">
+                      </div>
+                      <div class="left-label">
+                        <textarea style="width: 600px; height: 80px;" class="form-control" formControlName="comment" placeholder="Details or Comments"></textarea>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
