@@ -55,7 +55,7 @@ export class BookAppointmentComponent {
     console.log('Form Value', this.bookingForm.value);
     this.appointmentService.createAppointment(this.bookingForm.value).subscribe(res=>{
       console.log(res)
-      this.router.navigateByUrl('/patient/appointments/upcoming')
+      this.router.navigateByUrl('/patient/history')
     })
   }
 

@@ -14,6 +14,9 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { HistoryComponent } from './history/history.component';
 import { CareplanPatientComponent } from './careplan-patient/careplan-patient.component';
+import { ChatbotComponent } from 'app/chatbot/chatbot.component';
+
+
 
 @NgModule({
   declarations: [
@@ -24,6 +27,8 @@ import { CareplanPatientComponent } from './careplan-patient/careplan-patient.co
     SettingsComponent,
     HistoryComponent,
     CareplanPatientComponent,
+    ChatbotComponent,
+
   ],
   imports: [
     CommonModule,

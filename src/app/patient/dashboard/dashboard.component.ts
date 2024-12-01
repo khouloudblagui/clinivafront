@@ -76,7 +76,9 @@ export class DashboardComponent implements OnInit {
   public radialChartOptions!: Partial<radialChartOptions>;
   public restRateChartOptions!: Partial<restRateChartOptions>;
   public performanceRateChartOptions!: Partial<performanceRateChartOptions>;
-
+  userFullName =
+    localStorage.getItem('fisrtname') + ' ' + localStorage.getItem('lastname');
+    
   constructor() {}
   ngOnInit() {
     this.chart1();

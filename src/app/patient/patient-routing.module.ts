@@ -8,6 +8,7 @@ import { BillingComponent } from "./billing/billing.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { HistoryComponent } from "./history/history.component";
 import { CareplanPatientComponent } from "./careplan-patient/careplan-patient.component";
+import { ChatbotComponent } from "app/chatbot/chatbot.component";
 const routes: Routes = [
   {
     path: "dashboard",
@@ -43,6 +44,10 @@ const routes: Routes = [
   {
     path: "settings",
     component: SettingsComponent,
+  },
+  {
+    path: "chatbot",
+    component: ChatbotComponent,
   },
   { path: "**", component: Page404Component },
 ];
