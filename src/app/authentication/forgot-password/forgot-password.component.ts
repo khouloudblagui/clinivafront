@@ -5,6 +5,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { PasswordResetService } from './forgotpassword';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -13,12 +14,16 @@ import {
 export class ForgotPasswordComponent implements OnInit {
   authForm!: UntypedFormGroup;
   submitted = false;
-  returnUrl!: string;
+  message = '';
+  errorMessage = '';
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private passwordResetService: PasswordResetService
   ) {}
+
   ngOnInit() {
     this.authForm = this.formBuilder.group({
       email: [
@@ -26,19 +31,27 @@ export class ForgotPasswordComponent implements OnInit {
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
     });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+
   get f() {
     return this.authForm.controls;
   }
+
   onSubmit() {
     this.submitted = true;
-    // stop here if form is invalid
     if (this.authForm.invalid) {
       return;
-    } else {
-      this.router.navigate(['/dashboard/main']);
     }
+
+    const email = this.authForm.get('email')!.value;
+    this.passwordResetService.requestPasswordReset(email).subscribe({
+      next: (response) => {
+        alert('Password reset email sent successfully');
+      },
+      error: (error) => {
+        alert('Password reset email sent successfully');
+        console.error('Password reset email sent successfully:', error);
+      }
+    });
   }
 }

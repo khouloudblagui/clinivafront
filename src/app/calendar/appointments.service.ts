@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
@@ -24,20 +24,24 @@ export class AppointmentService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllAppointments(): void {
-    this.subs.sink = this.httpClient
-      .get<Appointment[]>(this.API_URL)
-      .subscribe({
-        next: (data) => {
-          this.isTblLoading = false;
-          this.dataChange.next(data);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isTblLoading = false;
-          console.log(error.name + ' ' + error.message);
-        },
-      });
+  // getAllAppointments(): void {
+  //   this.subs.sink = this.httpClient
+  //     .get<Appointment[]>(this.API_URL)
+  //     .subscribe({
+  //       next: (data) => {
+  //         this.isTblLoading = false;
+  //         this.dataChange.next(data);
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //         this.isTblLoading = false;
+  //         console.log(error.name + ' ' + error.message);
+  //       },
+  //     });
+  // }
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.httpClient.get<Appointment[]>(this.API_URL);
   }
+
   addAppointment(appointment: Appointment): void {
     this.dialogData = appointment;
 

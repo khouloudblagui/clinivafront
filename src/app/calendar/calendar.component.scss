@@ -1,14 +1,20 @@
 .event-work {
-  background-color: #4285f4;
-  color: white;
+  background-color: #4285f4 !important;
+  color: white !important;
+  border: 1px solid #1a73e8 !important;
+  padding: 5px !important;
 }
 
 .event-important {
-  background-color: #e84545;
-  color: white;
+  background-color: #e84545 !important;
+  color: white !important;
+  border: 1px solid #d32f2f !important;
+  padding: 5px !important;
 }
 
 .event-default {
-  background-color: #34a853;
-  color: white;
+  background-color: #34a853 !important;
+  color: white !important;
+  border: 1px solid #2e7d32 !important;
+  padding: 5px !important;
 }

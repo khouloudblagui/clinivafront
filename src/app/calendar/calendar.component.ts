@@ -29,6 +29,7 @@ import { INITIAL_EVENTS } from './events-util';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { UnsubscribeOnDestroyAdapter } from '../shared/UnsubscribeOnDestroyAdapter';
 import { Direction } from '@angular/cdk/bidi';
+import { AppointmentService } from './appointments.service';
 
 @Component({
   selector: 'app-calendar',
@@ -68,6 +69,7 @@ export class CalendarComponent
     private fb: UntypedFormBuilder,
     private dialog: MatDialog,
     public calendarService: CalendarService,
+    private appointmentService: AppointmentService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -81,7 +83,9 @@ export class CalendarComponent
     this.calendarEvents = INITIAL_EVENTS;
     this.tempEvents = this.calendarEvents;
     this.calendarOptions.initialEvents = this.calendarEvents;
+    this.loadAppointments();
   }
+
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -100,11 +104,69 @@ export class CalendarComponent
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
   };
+   // Méthode pour charger les événements à partir du service
+   loadAppointments() {
+    this.appointmentService.getAllAppointments().subscribe({
+      next: (appointments) => {
+        console.log('Rendez-vous récupérés:', appointments);
+
+        // Filtrer et mapper les rendez-vous
+        this.calendarEvents = appointments
+          .filter((appointment) => {
+            const startDate = new Date(appointment.date);
+            const endDate = new Date(appointment.date);
+
+            // Vérification de la validité de la date
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+              console.error('Date invalide pour l\'ID:', appointment.id);
+              return false;
+            }
+            return true;
+          })
+          .map((appointment) => ({
+            id: appointment.id.toString(),
+            title: appointment.name || 'No Title', // Titre de l'événement
+            start: new Date(appointment.date).toISOString(),  // Convertir la date en format ISO
+            end: new Date(appointment.date).toISOString(),  // Fin de l'événement (ici on suppose une durée d'une journée)
+            description: appointment.status || 'No description', // Description de l'événement
+            // Utiliser les classes CSS en fonction du statut, avec une valeur par défaut si 'status' est undefined
+            classNames: this.getEventClass(appointment.status ?? 'default'),
+          }));
+
+        console.log('Événements du calendrier:', this.calendarEvents);
+
+        // Mettre à jour les événements dans les options du calendrier
+        this.calendarOptions.events = this.calendarEvents;  // Assurez-vous que les événements sont bien assignés
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des rendez-vous:', error);
+      }
+    });
+  }
+
+  // Fonction pour déterminer la classe de l'événement en fonction de son statut
+  getEventClass(status: string): string[] {
+    switch (status) {
+      case 'work':
+        return ['event-work'];  // Appliquer la classe 'event-work' pour les événements de travail
+      case 'important':
+        return ['event-important'];  // Appliquer la classe 'event-important' pour les événements importants
+      case 'default':
+        return ['event-default'];  // Appliquer la classe 'event-default' pour les événements par défaut
+      default:
+        return ['event-default'];  // Classe par défaut si aucun statut spécifique
+    }
+  }
+
+
+
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleDateSelect(selectInfo: DateSelectArg) {
     this.addNewEvent();
   }
+
+
 
   addNewEvent() {
     let tempDirection: Direction;
@@ -146,7 +208,8 @@ export class CalendarComponent
       }
     });
   }
-  
+
+
 
   changeCategory(event: MatCheckboxChange, filter: { name: string }) {
     if (event.checked) {
