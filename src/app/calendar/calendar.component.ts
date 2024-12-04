@@ -146,6 +146,7 @@ export class CalendarComponent
       }
     });
   }
+  
 
   changeCategory(event: MatCheckboxChange, filter: { name: string }) {
     if (event.checked) {

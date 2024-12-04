@@ -12,6 +12,7 @@ import { FormDialogComponent as calFormComponent } from './dialogs/form-dialog/f
 import { CalendarService } from './calendar.service';
 import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
+import { AppointmentService } from './appointments.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,6 @@ import { SharedModule } from '@shared';
     SharedModule,
   ],
   declarations: [CalendarComponent, calFormComponent],
-  providers: [CalendarService],
+  providers: [CalendarService,AppointmentService],
 })
 export class CalendarsModule {}

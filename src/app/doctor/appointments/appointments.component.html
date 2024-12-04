@@ -199,7 +199,7 @@
                   </mat-cell>
                 </ng-container> -->
 
-                <ng-container matColumnDef="actions">
+                <!-- <ng-container matColumnDef="actions">
                   <mat-header-cell class="pr-0" *matHeaderCellDef
                     >Actions</mat-header-cell
                   >
@@ -245,7 +245,37 @@
                       ></app-feather-icons>
                     </button>
                   </mat-cell>
+                </ng-container> -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0">
+                    <!-- Bouton principal avec un menu déroulant -->
+                    <button mat-icon-button [matMenuTriggerFor]="menu" class="tbl-action-btn">
+                      <app-feather-icons [icon]="'menu'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                    </button>
+
+                    <!-- Menu déroulant -->
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="show(row)">
+                        <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        <span>Voir</span>
+                      </button>
+                      <button mat-menu-item (click)="consultation(row)">
+                        <app-feather-icons [icon]="'plus'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        <span>Consultation</span>
+                      </button>
+                      <button mat-menu-item (click)="consultationDisplay(row)">
+                        <app-feather-icons [icon]="'file'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        <span>Affichage Consultation</span>
+                      </button>
+                      <button mat-menu-item (click)="careplanDisplay(row)">
+                        <app-feather-icons [icon]="'folder'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        <span>Plan de soins</span>
+                      </button>
+                    </mat-menu>
+                  </mat-cell>
                 </ng-container>
+
                 <mat-header-row
                   *matHeaderRowDef="displayedColumns"
                 ></mat-header-row>

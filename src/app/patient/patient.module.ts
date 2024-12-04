@@ -14,7 +14,7 @@ import { ComponentsModule } from '@shared/components/components.module';
 import { SharedModule } from '@shared';
 import { HistoryComponent } from './history/history.component';
 import { CareplanPatientComponent } from './careplan-patient/careplan-patient.component';
-import { ChatbotComponent } from 'app/chatbot/chatbot.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -27,12 +27,12 @@ import { ChatbotComponent } from 'app/chatbot/chatbot.component';
     SettingsComponent,
     HistoryComponent,
     CareplanPatientComponent,
-    ChatbotComponent,
 
   ],
   imports: [
     CommonModule,
     NgChartsModule,
+    FormsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

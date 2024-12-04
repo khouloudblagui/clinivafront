@@ -3,7 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { Appointment } from '@core/appointment';
+import { Appointment } from './Appointment.model';
+
 @Injectable()
 export class AppointmentService extends UnsubscribeOnDestroyAdapter {
   private readonly API_URL = 'http://localhost:8087/api/doctor/appointments/';
@@ -36,20 +37,6 @@ export class AppointmentService extends UnsubscribeOnDestroyAdapter {
           console.log(error.name + ' ' + error.message);
         },
       });
-  }
-  getAppointmentsForDoctor(doctorId: number): void {
-    this.isTblLoading = true; // Marquer que le tableau est en cours de chargement
-
-    this.subs.sink = this.httpClient.get<Appointment[]>(`${this.API_URL}${doctorId}`).subscribe({
-      next: (data) => {
-        this.isTblLoading = false;
-        this.dataChange.next(data); // Mettre à jour les rendez-vous dans le tableau
-      },
-      error: (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
-      },
-    });
   }
   addAppointment(appointment: Appointment): void {
     this.dialogData = appointment;

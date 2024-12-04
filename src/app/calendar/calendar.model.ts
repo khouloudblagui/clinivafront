@@ -6,6 +6,8 @@ export class Calendar {
   startDate: string;
   endDate: string;
   details: string;
+  doctor: any;
+  patient: any;
 
   constructor(calendar: Calendar) {
     {

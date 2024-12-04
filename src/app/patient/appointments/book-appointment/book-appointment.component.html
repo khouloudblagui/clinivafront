@@ -46,6 +46,19 @@
                     <mat-label>Mobile</mat-label>
                     <input matInput formControlName="mobile" type="number" required>
                   </mat-form-field>
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Mobile</mat-label>
+                    <input
+                      matInput
+                      formControlName="mobile"
+                      type="text"
+                      placeholder="+216 22 222 222"
+                      required
+                    >
+                    <mat-error *ngIf="bookingForm.get('mobile')?.hasError('required')">Le numéro de téléphone est requis.</mat-error>
+                    <mat-error *ngIf="bookingForm.get('mobile')?.hasError('pattern')">Format de numéro de téléphone invalide. Exemple: +216 22 222 222.</mat-error>
+                  </mat-form-field> -->
+
                 </div>
               </div>
               <div class="row">
@@ -67,13 +80,25 @@
                   </mat-form-field>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Date Of Birth</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="dob" required>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="bookingForm.get('dob')?.hasError('required')">
                       Please select date
+                    </mat-error>
+                  </mat-form-field> -->
+                  <mat-form-field appearance="outline" class="example-full-width mb-3">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dob" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="bookingForm.get('dob')?.hasError('required')">
+                      Please select a date
+                    </mat-error>
+                    <mat-error *ngIf="bookingForm.get('dob')?.hasError('futureDate')">
+                      Date of Birth cannot be in the future
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -106,6 +131,15 @@
                   </mat-form-field>
                 </div> -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                  <!-- <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Date Of Appointment</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="date" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
+                      Please select a date
+                    </mat-error>
+                  </mat-form-field> -->
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Date Of Appointment</mat-label>
                     <input matInput [matDatepicker]="picker1" formControlName="date" required>
@@ -114,13 +148,17 @@
                     <mat-error *ngIf="bookingForm.get('date')?.hasError('required')">
                       Please select a date
                     </mat-error>
+                    <mat-error *ngIf="bookingForm.get('date')?.hasError('pastDate')">
+                      Date of Appointment cannot be in the past
+                    </mat-error>
                   </mat-form-field>
+
                 </div>
               </div>
               <div class="row">
                 <label>Time Of Appointment:</label>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                  <mat-button-toggle-group name="timeSlot" aria-label="Time Slot" class="mb-5"
+                  <!-- <mat-button-toggle-group name="timeSlot" aria-label="Time Slot" class="mb-5"
                     formControlName="time">
                     <mat-button-toggle value="10:30-11:00">10:30-11:00</mat-button-toggle>
                     <mat-button-toggle value="11:00-11:30">11:00-11:30</mat-button-toggle>
@@ -132,7 +170,42 @@
                     <mat-button-toggle value="04:30-05:00">04:30-05:00</mat-button-toggle>
                     <mat-button-toggle value="05:00-05:30">05:00-05:30</mat-button-toggle>
                     <mat-button-toggle value="05:30-06:00">05:30-06:00</mat-button-toggle>
-                  </mat-button-toggle-group>
+                  </mat-button-toggle-group> -->
+                  <div class="time-slot-container">
+                    <!-- Morning slots -->
+                    <div class="time-slot-group">
+                      <h4>Morning</h4>
+                      <mat-button-toggle-group
+                        name="morningSlot"
+                        aria-label="Morning Slot"
+                        class="time-slot-group-buttons"
+                        formControlName="time"
+                      >
+                        <mat-button-toggle value="10:30-11:00 AM">10:30-11:00 AM</mat-button-toggle>
+                        <mat-button-toggle value="11:00-11:30 AM">11:00-11:30 AM</mat-button-toggle>
+                        <mat-button-toggle value="11:30-12:00 AM">11:30-12:00 AM</mat-button-toggle>
+                      </mat-button-toggle-group>
+                    </div>
+
+                    <!-- Afternoon slots -->
+                    <div class="time-slot-group">
+                      <h4>Afternoon</h4>
+                      <mat-button-toggle-group
+                        name="afternoonSlot"
+                        aria-label="Afternoon Slot"
+                        class="time-slot-group-buttons"
+                        formControlName="time"
+                      >
+                        <mat-button-toggle value="12:00-12:30 PM">12:00-12:30 PM</mat-button-toggle>
+                        <mat-button-toggle value="12:30-01:00 PM">12:30-01:00 PM</mat-button-toggle>
+                        <mat-button-toggle value="03:30-04:00 PM">03:30-04:00 PM</mat-button-toggle>
+                        <mat-button-toggle value="04:00-04:30 PM">04:00-04:30 PM</mat-button-toggle>
+                        <mat-button-toggle value="04:30-05:00 PM">04:30-05:00 PM</mat-button-toggle>
+                        <mat-button-toggle value="05:00-05:30 PM">05:00-05:30 PM</mat-button-toggle>
+                      </mat-button-toggle-group>
+                    </div>
+                  </div>
+
                 </div>
               </div>
               <div class="row">

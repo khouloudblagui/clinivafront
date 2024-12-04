@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChatbotService } from 'app/services/chatbot.service';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -78,14 +79,62 @@ export class DashboardComponent implements OnInit {
   public performanceRateChartOptions!: Partial<performanceRateChartOptions>;
   userFullName =
     localStorage.getItem('fisrtname') + ' ' + localStorage.getItem('lastname');
-    
-  constructor() {}
+   // Variables pour le chatbot
+   isChatbotOpen = false; // État d'ouverture du chatbot
+   chatbotMessages: { sender: string; content: string }[] = []; // Messages du chatbot
+   userInput = ''; // Saisie utilisateur
+  constructor(private chatbotService: ChatbotService) {}
   ngOnInit() {
     this.chart1();
     this.chart2();
     this.chart3();
     this.chart4();
   }
+  // Méthodes pour le chatbot
+  toggleChatbot(): void {
+    this.isChatbotOpen = !this.isChatbotOpen;
+  }
+
+  sendChatMessage(): void {
+    if (this.userInput.trim()) {
+      // Ajout du message utilisateur à l'affichage
+      this.chatbotMessages.push({ sender: 'user', content: this.userInput });
+
+      // Détecter l'intention en fonction du message
+      let intentName = 'RecommanderMedecinIntent'; // Par défaut
+
+      // Mots-clés pour détecter les intentions
+      if (this.userInput.toLowerCase().includes('vaccin') || this.userInput.toLowerCase().includes('vaccination')) {
+        intentName = 'InfoVaccinIntent'; // Si le message parle de vaccin
+      } else if (this.userInput.toLowerCase().includes('rendez-vous') || this.userInput.toLowerCase().includes('planifier')) {
+        intentName = 'PlanifierRendezVousIntent'; // Si le message parle de planifier un rendez-vous
+      } else if (this.userInput.toLowerCase().includes('médicament') || this.userInput.toLowerCase().includes('paracétamol') || this.userInput.toLowerCase().includes('doliprane')) {
+        intentName = 'InfoMedicamentIntent'; // Si le message contient des informations sur un médicament
+      } else if (this.userInput.toLowerCase().includes('allergie')) {
+        intentName = 'IdentifierAllergieIntent'; // Si le message contient une mention d'allergie
+      } else if (this.userInput.toLowerCase().includes('conseils santé') || this.userInput.toLowerCase().includes('santé')) {
+        intentName = 'ConseilsSanteIntent'; // Pour des conseils de santé généraux
+      }
+
+      // Envoi du message au backend via le service
+      this.chatbotService.sendMessage(this.userInput, intentName).subscribe(
+        (response) => {
+          const botResponse = response.fulfillmentMessages[0]?.text?.text[0] || 'Réponse non disponible';
+          this.chatbotMessages.push({ sender: 'bot', content: botResponse });
+        },
+        (error) => {
+          this.chatbotMessages.push({ sender: 'bot', content: 'Erreur : serveur inaccessible.' });
+          console.error(error);
+        }
+      );
+
+      // Réinitialisation de la saisie utilisateur
+      this.userInput = '';
+    }
+  }
+
+
+
   private chart1() {
     this.areaChartOptions = {
       series: [

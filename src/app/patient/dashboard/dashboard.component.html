@@ -214,6 +214,35 @@
         </div>
       </div>
     </div>
+    <div class="chatbot-widget">
+      <!-- Bouton pour ouvrir/fermer le chatbot -->
+      <div class="widget-toggle" (click)="toggleChatbot()">
+        <span *ngIf="!isChatbotOpen">💬</span>
+        <span *ngIf="isChatbotOpen">❌</span>
+      </div>
+
+      <!-- Fenêtre du chatbot -->
+      <div class="chatbot-window" *ngIf="isChatbotOpen">
+        <div class="chat-header">
+          <h3>Chatbot</h3>
+        </div>
+        <div class="chat-body">
+          <!-- Messages -->
+          <div *ngFor="let message of chatbotMessages" class="message">
+            <span [ngClass]="{ 'user': message.sender === 'user', 'bot': message.sender === 'bot' }">
+              <strong>{{ message.sender === 'user' ? 'Vous' : 'Bot' }}:</strong> {{ message.content }}
+            </span>
+          </div>
+        </div>
+        <div class="chat-footer">
+          <!-- Entrée utilisateur -->
+          <input [(ngModel)]="userInput" type="text" placeholder="Écrivez votre message..." />
+          <button (click)="sendChatMessage()">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <div class="card">
