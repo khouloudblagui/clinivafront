@@ -1,0 +1,83 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Dashboard'" [items]="[]" [active_item]="'Dashboard'"></app-breadcrumb>
+    </div>
+    <!-- Widgets -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="row align-items-center">
+              <div class="col-md-4">
+                <img src="assets/images/CARE-PLAN-Logo.ico" alt="" class="w-100" >
+              </div>
+              <div class="col-md-8">
+                <h4 class="font-20 weight-500 mb-2">
+                  Welcome back <div class="weight-600 font-30 col-blue pt-1">{{userFullName}}</div>
+                </h4>
+                <p class="font-16 max-width-600">We would like to take this opportunity to welcome you to our practice
+                  and to thank you
+                  for choosing our physicians to participate in your healthcare. We look forward to
+                  providing you with personalized, comprehensive health care focusing on wellness and
+                  prevention.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #END# Widgets -->
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              Patients Survay</h2>
+
+          </div>
+          <div class="body">
+            <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis"
+            [dataLabels]="chartOptions.dataLabels"
+            [title]="chartOptions.title || { text: '' }">
+          </apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chatbot-widget">
+      <!-- Bouton pour ouvrir/fermer le chatbot -->
+      <div class="widget-toggle" (click)="toggleChatbot()">
+        <span *ngIf="!isChatbotOpen">💬</span>
+        <span *ngIf="isChatbotOpen">❌</span>
+      </div>
+
+      <!-- Fenêtre du chatbot -->
+      <div class="chatbot-window" *ngIf="isChatbotOpen">
+        <div class="chat-header">
+          <h3>Chatbot</h3>
+        </div>
+        <div class="chat-body">
+          <!-- Messages -->
+          <div *ngFor="let message of chatbotMessages" class="message">
+            <span [ngClass]="{ 'user': message.sender === 'user', 'bot': message.sender === 'bot' }">
+              <strong>{{ message.sender === 'user' ? 'Vous' : 'Bot' }}:</strong> {{ message.content }}
+            </span>
+          </div>
+        </div>
+        <div class="chat-footer">
+          <!-- Entrée utilisateur -->
+          <input [(ngModel)]="userInput" type="text" placeholder="Écrivez votre message..." />
+          <button (click)="sendChatMessage()">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</section>

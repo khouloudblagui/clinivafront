@@ -1,0 +1,410 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AppointmentService } from '@core/service/appointment.service';
+import { ChatbotService } from 'app/services/chatbot.service';
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexTooltip,
+  ApexYAxis,
+  ApexPlotOptions,
+  ApexStroke,
+  ApexLegend,
+  ApexNonAxisChartSeries,
+  ApexMarkers,
+  ApexGrid,
+  ApexTitleSubtitle,
+} from 'ng-apexcharts';
+export type areaChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  stroke: ApexStroke;
+  tooltip: ApexTooltip;
+  dataLabels: ApexDataLabels;
+  legend: ApexLegend;
+  colors: string[];
+};
+
+export type restRateChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  colors: string[];
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  tooltip: ApexTooltip;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
+export type performanceRateChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  colors: string[];
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  tooltip: ApexTooltip;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  title: ApexTitleSubtitle;
+};
+
+export type radialChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  labels: string[];
+  colors: string[];
+  plotOptions: ApexPlotOptions;
+};
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+})
+export class DashboardComponent implements OnInit {
+  @ViewChild('chart')
+  chart!: ChartComponent;
+  public areaChartOptions!: Partial<areaChartOptions>;
+  public radialChartOptions!: Partial<radialChartOptions>;
+  public restRateChartOptions!: Partial<restRateChartOptions>;
+  public performanceRateChartOptions!: Partial<performanceRateChartOptions>;
+  userFullName =
+    localStorage.getItem('fisrtname') + ' ' + localStorage.getItem('lastname');
+   // Variables pour le chatbot
+   isChatbotOpen = false; // État d'ouverture du chatbot
+   chatbotMessages: { sender: string; content: string }[] = []; // Messages du chatbot
+   userInput = ''; // Saisie utilisateur
+  constructor(private chatbotService: ChatbotService ,   private appointmentService : AppointmentService) {}
+
+
+  public chartOptions: ChartOptions = {
+    series: [
+      {
+        name: 'Sales',
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }
+    ],
+    chart: {
+      type: 'bar',
+      height: 350
+    },
+    title: {
+      text: 'Monthly Sales' // Explicitly provide a value for the title
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
+    },
+    dataLabels: {
+      enabled: false
+    }
+  };
+  ngOnInit() {
+    this.chart1();
+    this.chart2();
+    this.chart3();
+    this.chart4();
+
+    this.appointmentService.getHistoryDashboard().subscribe(res=>{
+      console.log(res);
+
+      const months = Object.keys(res);
+      const counts = Object.values(res);
+      console.log(counts);
+      console.log(months);
+
+      this.chartOptions = {
+        series: [
+          {
+            name: 'Sales',
+            data: counts
+          }
+        ],
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        title: {
+          text: 'History Patient' // Explicitly provide a value for the title
+        },
+        xaxis: {
+          categories: ["Asthma" , "Cancer" , "Heart diseases"]
+        },
+        dataLabels: {
+          enabled: false
+        }
+      };
+
+    })
+  }
+  // Méthodes pour le chatbot
+  toggleChatbot(): void {
+    this.isChatbotOpen = !this.isChatbotOpen;
+  }
+
+  sendChatMessage(): void {
+    if (this.userInput.trim()) {
+      // Ajout du message utilisateur à l'affichage
+      this.chatbotMessages.push({ sender: 'user', content: this.userInput });
+
+      // Détecter l'intention en fonction du message
+      let intentName = 'RecommanderMedecinIntent'; // Par défaut
+
+      // Mots-clés pour détecter les intentions
+      if (this.userInput.toLowerCase().includes('vaccin') || this.userInput.toLowerCase().includes('vaccination')) {
+        intentName = 'InfoVaccinIntent'; // Si le message parle de vaccin
+      } else if (this.userInput.toLowerCase().includes('rendez-vous') || this.userInput.toLowerCase().includes('planifier')) {
+        intentName = 'PlanifierRendezVousIntent'; // Si le message parle de planifier un rendez-vous
+      } else if (this.userInput.toLowerCase().includes('médicament') || this.userInput.toLowerCase().includes('paracétamol') || this.userInput.toLowerCase().includes('doliprane')) {
+        intentName = 'InfoMedicamentIntent'; // Si le message contient des informations sur un médicament
+      } else if (this.userInput.toLowerCase().includes('allergie')) {
+        intentName = 'IdentifierAllergieIntent'; // Si le message contient une mention d'allergie
+      } else if (this.userInput.toLowerCase().includes('conseils santé') || this.userInput.toLowerCase().includes('santé')) {
+        intentName = 'ConseilsSanteIntent'; // Pour des conseils de santé généraux
+      }
+
+      // Envoi du message au backend via le service
+      this.chatbotService.sendMessage(this.userInput, intentName).subscribe(
+        (response) => {
+          const botResponse = response.fulfillmentMessages[0]?.text?.text[0] || 'Réponse non disponible';
+          this.chatbotMessages.push({ sender: 'bot', content: botResponse });
+        },
+        (error) => {
+          this.chatbotMessages.push({ sender: 'bot', content: 'Erreur : serveur inaccessible.' });
+          console.error(error);
+        }
+      );
+
+      // Réinitialisation de la saisie utilisateur
+      this.userInput = '';
+    }
+  }
+
+
+
+  private chart1() {
+    this.areaChartOptions = {
+      series: [
+        {
+          name: 'New Patients',
+          data: [31, 40, 28, 51, 42, 85, 77],
+        },
+        {
+          name: 'Old Patients',
+          data: [11, 32, 45, 32, 34, 52, 41],
+        },
+      ],
+      chart: {
+        height: 350,
+        type: 'area',
+        toolbar: {
+          show: false,
+        },
+        foreColor: '#9aa0ac',
+      },
+      colors: ['#7D4988', '#66BB6A'],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [
+          '2018-09-19T00:00:00.000Z',
+          '2018-09-19T01:30:00.000Z',
+          '2018-09-19T02:30:00.000Z',
+          '2018-09-19T03:30:00.000Z',
+          '2018-09-19T04:30:00.000Z',
+          '2018-09-19T05:30:00.000Z',
+          '2018-09-19T06:30:00.000Z',
+        ],
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: 0,
+      },
+
+      tooltip: {
+        x: {
+          format: 'dd/MM/yy HH:mm',
+        },
+      },
+    };
+  }
+  private chart2() {
+    this.radialChartOptions = {
+      series: [44, 55, 67],
+      chart: {
+        height: 265,
+        type: 'radialBar',
+      },
+      plotOptions: {
+        radialBar: {
+          dataLabels: {
+            name: {
+              fontSize: '22px',
+            },
+            value: {
+              fontSize: '16px',
+            },
+            total: {
+              show: true,
+              label: 'Total',
+              formatter: function () {
+                return '249';
+              },
+            },
+          },
+        },
+      },
+      colors: ['#ffc107', '#3f51b5', '#8bc34a'],
+
+      labels: ['Face TO Face', 'E-Consult', 'Available'],
+    };
+  }
+
+  private chart3() {
+    this.restRateChartOptions = {
+      series: [
+        {
+          name: 'Heart Rate',
+          data: [69, 75, 72, 69, 75, 80, 87],
+        },
+      ],
+      chart: {
+        height: 350,
+        type: 'line',
+        dropShadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.2,
+        },
+        foreColor: '#9aa0ac',
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ['#FCB939'],
+      dataLabels: {
+        enabled: true,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      markers: {
+        size: 1,
+      },
+      grid: {
+        show: true,
+        borderColor: '#9aa0ac',
+        strokeDashArray: 1,
+      },
+      xaxis: {
+        categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        title: {
+          text: 'Weekday',
+        },
+      },
+      yaxis: {
+        title: {
+          text: 'Heart Rate',
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+        marker: {
+          show: true,
+        },
+        x: {
+          show: true,
+        },
+      },
+    };
+  }
+  private chart4() {
+    this.performanceRateChartOptions = {
+      series: [
+        {
+          name: 'Heart Rate',
+          data: [113, 120, 130, 120, 125, 119, 126],
+        },
+      ],
+      chart: {
+        height: 350,
+        type: 'line',
+        dropShadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.2,
+        },
+        foreColor: '#9aa0ac',
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: ['#545454'],
+      dataLabels: {
+        enabled: true,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        borderColor: '#9aa0ac',
+        strokeDashArray: 1,
+      },
+      markers: {
+        size: 1,
+      },
+      xaxis: {
+        categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        title: {
+          text: 'Weekday',
+        },
+      },
+      yaxis: {
+        title: {
+          text: 'Heart Rate',
+        },
+      },
+      tooltip: {
+        theme: 'dark',
+        marker: {
+          show: true,
+        },
+        x: {
+          show: true,
+        },
+      },
+    };
+  }
+}

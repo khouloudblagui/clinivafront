@@ -1,0 +1,133 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Careplan'" [items]="[]" [active_item]="'CarePlan'"></app-breadcrumb>
+    </div>
+    <form [formGroup]="carePlanForm" (ngSubmit)="onSubmit()">
+    <div class="card">
+      <div style=" padding: 20px;">
+        <h2 style="color: white;">Health Assessment</h2> <!--Douleur-->
+        <strong style="color: white;">Patient Ky : </strong>
+        <span style="color: white;">{{ userKy }}</span>
+      </div>
+      <div class="body" >
+        <div class="example-container row" >
+          <div class="col-md-12">
+            <h6>Physical Assessment :</h6>
+            <mat-form-field class="small-input" style="width: 100%;" appearance="outline">
+              <mat-label>Plan</mat-label>
+              <textarea matInput placeholder="Notes"  formControlName="phyAss"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <h6 style="margin-right: 20px; margin-bottom: 50px;">Psychological Assessment :</h6>
+            <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+              <mat-label>Plan</mat-label>
+              <textarea matInput placeholder="Notes" formControlName="psyAss"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <h6 style="margin-right: 90px; margin-bottom: 50px;">Pain Assessment :</h6>
+            <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+              <mat-label>Plan</mat-label>
+              <textarea matInput placeholder="Notes" formControlName="painAss"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <h6 style="margin-right: 140px; margin-bottom: 50px;">Vital signs :</h6>
+            <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+              <mat-label>Plan</mat-label>
+              <textarea matInput placeholder="Notes" formControlName="vital"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <h6 style="margin-right: 120px; margin-bottom: 35px;">Observations :</h6>
+            <mat-form-field style="width: 100%;" class="small-input" appearance="outline">
+              <mat-label>Comments</mat-label>
+              <textarea matInput placeholder="Notes" formControlName="obq1"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="card" >
+        <div style="text-align: center; margin-top: 20px;">
+          <h2>Planned Interventions</h2>
+        </div>
+        <div class="body">
+          <div class="example-container row">
+
+            <div class="col-md-12">
+              <h6 >Medication administration :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="medAdd"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6 >Medical procedures :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="medProc"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6>Technical care :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="techCare"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6 >Observations :</h6>
+              <mat-form-field style="width: 100%;" class="small-input" appearance="outline">
+                <mat-label>Comments</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="obq2"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" >
+        <div >
+          <h2>Treatment goals</h2>
+        </div>
+        <div class="body">
+          <div class="example-container">
+            <div class="col-md-12">
+              <h6 >Specific goals :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="specGol"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6 >Short-term goals :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="shortGol"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6 >Long-term goals :</h6>
+              <mat-form-field style="width: 100%;" class="small-input"  appearance="outline">
+                <mat-label>Plan</mat-label>
+                <textarea matInput placeholder="Notes" formControlName="longGol"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <h6 >Observations :</h6>
+              <mat-form-field style="width: 100%;" class="small-input" appearance="outline">
+                <mat-label>Comments</mat-label>
+                <textarea matInput placeholder="Notes"  formControlName="obq3"></textarea>
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+</div>
+</form>
+  </div>
+
+</section>
