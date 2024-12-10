@@ -80,9 +80,9 @@ export class CalendarComponent
   }
 
   public ngOnInit(): void {
-    this.calendarEvents = INITIAL_EVENTS;
-    this.tempEvents = this.calendarEvents;
-    this.calendarOptions.initialEvents = this.calendarEvents;
+    //this.calendarEvents = INITIAL_EVENTS;
+    //this.tempEvents = this.calendarEvents;
+    //this.calendarOptions.initialEvents = this.calendarEvents;
     this.loadAppointments();
   }
 

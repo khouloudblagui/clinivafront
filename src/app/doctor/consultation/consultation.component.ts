@@ -59,7 +59,6 @@ export class ConsultationComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const userKyParam = params.get('id');
       this.userKy = userKyParam ? +userKyParam : 0;
-
     });
 
     this.fetchMedications();
@@ -110,11 +109,11 @@ export class ConsultationComponent implements OnInit {
         surgical: formValues.surgicalProcedures.map((item: { cptCode: any }) => item.cptCode).join(' '),
         descSur: formValues.descSur,
         comment: formValues.comment,
-        userKy: this.userKy
+        userKy: this.userKy,
 
       };
 
-       console.log(consultation);
+       console.log("bbbbbbbbbbbbbbbbbbbbbbbbb", consultation);
 
       this.consultationService.addConsultation(consultation).subscribe(response => {
         console.log('Consultation saved successfully', response);
@@ -124,6 +123,9 @@ export class ConsultationComponent implements OnInit {
         alert('Error saving consultation')
         this.showNotification('snackbar-error', 'Error adding consultation', 'top', 'center');
         this.consultationForm.reset();
+        console.log("bbbbbbbbbbbbbbbbbbbbbbbbb", this.consultationService);
+
+
       });
     }
 

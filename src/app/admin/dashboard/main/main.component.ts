@@ -53,15 +53,16 @@ export type ChartOptions3 = {
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-
   public smallChart1Options!: Partial<ChartOptions>;
   public smallChart2Options!: Partial<ChartOptions>;
   public smallChart3Options!: Partial<ChartOptions>;
   public smallChart4Options!: Partial<ChartOptions>;
   public barChartOptions!: Partial<ChartOptions>;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   constructor(
     private appointmentService : AppointmentService
+
   ) {}
 
 
@@ -89,14 +90,15 @@ export class MainComponent implements OnInit {
     }
   };
   ngOnInit() {
+
     this.smallChart1();
     this.smallChart2();
     this.smallChart3();
     this.smallChart4();
-
     this.chart2();
-    this.getAppointments()
-    this.getStatus()
+    this.getAppointments();
+   // this.getAppointmentsCard()
+    this.getStatus();
   }
 
   getStatus(){
@@ -134,10 +136,8 @@ export class MainComponent implements OnInit {
 
   getAppointments(){
     this.appointmentService.getAllAppointmentsDashboard().subscribe(res=>{
-      console.log(res)
       const months = Object.keys(res);
       const counts = Object.values(res);
-      console.log(counts);
       console.log(months);
 
       this.areaChartOptions = {
@@ -167,6 +167,17 @@ export class MainComponent implements OnInit {
     });
 
   }
+  // getAppointmentsCard(){
+  //   this.appointmentService.getAllAppointments().subscribe(res2=>{
+  //     const months = Object.keys(res2);
+  //     const counts = Object.values(res2);
+  //     const sum = Object.values(res2).reduce((acc, value) => acc + value, 0);
+  //     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",sum)
+  //     console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",res2)
+  //     console.log(months);
+  //   });
+  // }
+
 
   private smallChart1() {
     this.smallChart1Options = {

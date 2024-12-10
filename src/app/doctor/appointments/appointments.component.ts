@@ -130,14 +130,12 @@ export class AppointmentsComponent  extends UnsubscribeOnDestroyAdapter
 
   show(data:any){
     console.log(data);
-
     const url = "doctor/history/"+data.patient.userKy
     this.router.navigateByUrl(url)
 
   }
 
   consultation(data:any){
-    console.log(data)
     const url = "doctor/consultation/"+data.patient.userKy
     this.router.navigateByUrl(url)
   }
